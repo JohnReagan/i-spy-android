@@ -12,7 +12,7 @@
     <TextView
         android:id="@+id/message"
         android:layout_below="@+id/photo"
-        android:text="Click on button to capture image"
+        android:text="Click on button to capture image. \n After capturing, tap the image to see the pixel location of your tap."
         android:textSize="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,6 +29,7 @@
         android:layout_marginLeft="20dp"
         />
 
+
     <ImageView
         android:id="@+id/showImg"
         android:layout_width="wrap_content"
@@ -36,6 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_below="@+id/imageDetails"
-        />
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY" />
 
 </RelativeLayout>

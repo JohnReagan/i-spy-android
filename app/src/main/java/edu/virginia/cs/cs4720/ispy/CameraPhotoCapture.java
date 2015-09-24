@@ -8,10 +8,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,7 +33,9 @@ public class CameraPhotoCapture extends Activity {
     static TextView imageDetails      = null;
     public  static ImageView showImg  = null;
     CameraPhotoCapture CameraActivity = null;
-
+    double latitude;
+    double longitude;
+    GPS gps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,9 @@ public class CameraPhotoCapture extends Activity {
         showImg = (ImageView) findViewById(R.id.showImg);
 
         final Button photo = (Button) findViewById(R.id.photo);
+
+        showImg.setScaleType(ImageView.ScaleType.FIT_XY);
+        showImg.setAdjustViewBounds(true);
 
 
 
@@ -62,7 +69,7 @@ public class CameraPhotoCapture extends Activity {
 
                 values.put(MediaStore.Images.Media.TITLE, fileName);
 
-                values.put(MediaStore.Images.Media.DESCRIPTION,"Image capture by camera");
+                values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
 
                 // imageUri is the current activity attribute, define and save it for later usage
 
@@ -75,19 +82,37 @@ public class CameraPhotoCapture extends Activity {
                 // Standard Intent action that can be sent to have the camera
                 // application capture an image and return it.
 
-                Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
 
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 
-                startActivityForResult( intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
 
                 /*************************** Camera Intent End ************************/
 
 
             }
 
+        });
+
+        showImg.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                //get location of click relative to original image dimensions
+
+                // calculate inverse matrix
+                Matrix inverse = new Matrix();
+                showImg.getImageMatrix().invert(inverse);
+
+                // map touch point from ImageView to image
+                float[] touchPoint = new float[] {event.getX(), event.getY()};
+                inverse.mapPoints(touchPoint);
+
+                Toast.makeText(getApplicationContext(), "X: " + touchPoint[0] + "\nY: " + touchPoint[1], Toast.LENGTH_LONG).show();
+
+                return false;
+            }
         });
     }
 
@@ -109,6 +134,22 @@ public class CameraPhotoCapture extends Activity {
                 new LoadImagesFromSDCard().execute(""+imageId);
 
                 /*********** Load Captured Image And Data End ****************/
+
+                // Get coordinates
+                gps = new GPS(CameraPhotoCapture.this);
+
+                if (gps.canGetLocation()) {
+
+                    latitude = gps.getLatitude();
+                    longitude = gps.getLongitude();
+
+                    String details = imageDetails.getText() + "Latitude: " + latitude + "\n Longitude: " + longitude;
+
+                    imageDetails.setText(details);
+
+                } else {
+                    gps.showSettingsAlert();
+                }
 
 
             } else if ( resultCode == RESULT_CANCELED) {
@@ -257,7 +298,13 @@ public class CameraPhotoCapture extends Activity {
 
                     /********* Creates a new bitmap, scaled from an existing bitmap. ***********/
 
-                    newBitmap = Bitmap.createScaledBitmap(bitmap, 170, 170, true);
+//                    int orginalWidth = bitmap.getWidth();
+//                    int originalHeight = bitmap.getHeight();
+
+                    double factor = (double) bitmap.getWidth() / (double) bitmap.getHeight();
+
+                    //newBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500 * (int) factor, true);
+                    newBitmap = Bitmap.createScaledBitmap(bitmap, 800, 800, true);
 
                     bitmap.recycle();
 
