@@ -1,5 +1,6 @@
 package edu.virginia.cs.cs4720.ispy;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -59,7 +60,6 @@ public class AndroidCustomGallery extends Activity {
         GridView imagegrid = (GridView) findViewById(R.id.PhoneImageGrid);
         imageAdapter = new ImageAdapter();
         imagegrid.setAdapter(imageAdapter);
-        imagecursor.close();
 
         final Button selectBtn = (Button) findViewById(R.id.selectBtn);
         selectBtn.setOnClickListener(new OnClickListener() {
@@ -80,9 +80,16 @@ public class AndroidCustomGallery extends Activity {
                             "Please select at least one image",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(),
-                            "You've selected Total " + cnt + " image(s).",
-                            Toast.LENGTH_LONG).show();
+                    /*File img = new File(arrPath[0]);
+                    Bitmap mb = BitmapFactory.decodeFile(img.getAbsolutePath());
+                    ImageView myImage = (ImageView) findViewById(R.id.showImg);
+                    myImage.setImageBitmap(mb);*/
+
+                    Intent newIntent = new Intent(AndroidCustomGallery.this,
+                                                    PhotoView.class).putExtra("file", arrPath[0]);
+                    startActivity(newIntent);
+
+                    Log.d("arrPath", arrPath[0]);
                     Log.d("SelectedImages", selectImages);
                 }
             }
@@ -111,6 +118,7 @@ public class AndroidCustomGallery extends Activity {
                     for (int i = 0; i < cnt; i++) {
                         File file = new File(arrPath[i] + ".jpg");
                         file.delete();
+                        imageAdapter.notifyDataSetChanged();
                     }
                 }
             }

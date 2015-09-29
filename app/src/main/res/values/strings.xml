@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">I Spy</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="gallery">View gallery</string>
+    <string name="score">Scoreboard</string>
+    <string name="guess">Guess</string>
+    <string name="picture">Take a picture</string>
+    <string name="welcome">Welcome to I-Spy!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_android_custom_gallery">AndroidCustomGallery</string>
 </resources>
