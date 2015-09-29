@@ -11,24 +11,23 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.File;
-
 /**
  * Created by cole2 on 9/29/15.
  */
 public class PhotoView extends Activity {
 
-    protected void OnCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        String filename = intent.getStringExtra("img");
         setContentView(R.layout.activity_photo_view);
         ImageView myImage = (ImageView) findViewById(R.id.photoView);
-        Intent intent = getIntent();
-        String newStr = intent.getStringExtra("file");
-        Log.d("StringTest", newStr);
-        Toast.makeText(getApplicationContext(), newStr, Toast.LENGTH_SHORT).show();
-        File imgFile = new File(newStr);
-        Bitmap mb = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-        myImage.setImageBitmap(mb);
+        Bitmap bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeFile(filename), 1200, 1700, true);
+        myImage.setImageBitmap(bmp);
+        Log.d("Filename", filename);
+
+
         myImage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -48,5 +47,9 @@ public class PhotoView extends Activity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
 }

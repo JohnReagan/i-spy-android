@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,13 +21,14 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
-
 public class AndroidCustomGallery extends Activity {
     private int count;
     private Bitmap[] thumbnails;
     private boolean[] thumbnailsselection;
     private String[] arrPath;
     private ImageAdapter imageAdapter;
+
+    Button selectBtn;
 
     /**
      * Called when the activity is first created.
@@ -61,7 +61,7 @@ public class AndroidCustomGallery extends Activity {
         imageAdapter = new ImageAdapter();
         imagegrid.setAdapter(imageAdapter);
 
-        final Button selectBtn = (Button) findViewById(R.id.selectBtn);
+        selectBtn = (Button) findViewById(R.id.selectBtn);
         selectBtn.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
@@ -80,14 +80,17 @@ public class AndroidCustomGallery extends Activity {
                             "Please select at least one image",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    /*File img = new File(arrPath[0]);
-                    Bitmap mb = BitmapFactory.decodeFile(img.getAbsolutePath());
-                    ImageView myImage = (ImageView) findViewById(R.id.showImg);
-                    myImage.setImageBitmap(mb);*/
+                    File img = new File(arrPath[0]);
+                    if (img.exists()) {
 
-                    Intent newIntent = new Intent(AndroidCustomGallery.this,
-                                                    PhotoView.class).putExtra("file", arrPath[0]);
-                    startActivity(newIntent);
+                        Intent newIntent = new Intent(AndroidCustomGallery.this,
+                                PhotoView.class);
+                        newIntent.setAction(Intent.ACTION_SEND);
+                        newIntent.putExtra("img", arrPath[0]);
+                        startActivity(newIntent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "File does not exist", Toast.LENGTH_SHORT).show();
+                    }
 
                     Log.d("arrPath", arrPath[0]);
                     Log.d("SelectedImages", selectImages);
@@ -116,7 +119,7 @@ public class AndroidCustomGallery extends Activity {
                             Toast.LENGTH_LONG).show();
                 } else {
                     for (int i = 0; i < cnt; i++) {
-                        File file = new File(arrPath[i] + ".jpg");
+                        File file = new File(arrPath[i]);
                         file.delete();
                         imageAdapter.notifyDataSetChanged();
                     }
@@ -183,10 +186,16 @@ public class AndroidCustomGallery extends Activity {
                 public void onClick(View v) {
                     // TODO Auto-generated method stub
                     int id = v.getId();
-                    Intent intent = new Intent();
+                    /*Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setDataAndType(Uri.parse("file://" + arrPath[id]), "image/*");
-                    startActivity(intent);
+                    startActivity(intent);*/
+                    Intent newIntent = new Intent(AndroidCustomGallery.this,
+                            PhotoView.class);
+                    newIntent.setAction(Intent.ACTION_SEND);
+                    newIntent.putExtra("img", arrPath[id]);
+                    startActivity(newIntent);
+
                 }
             });
             holder.imageview.setImageBitmap(thumbnails[position]);

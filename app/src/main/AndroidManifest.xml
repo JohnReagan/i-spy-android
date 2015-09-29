@@ -48,8 +48,12 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </activity>
-        <activity android:name=".PhotoView"
+        <activity
+            android:name=".PhotoView"
             android:label="PhotoView">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".AndroidCustomGallery"
@@ -60,7 +64,7 @@
                 android:value="edu.virginia.cs.cs4720.ispy.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <action android:name="android.intent.action.SEND" />
             </intent-filter>
         </activity>
     </application>
