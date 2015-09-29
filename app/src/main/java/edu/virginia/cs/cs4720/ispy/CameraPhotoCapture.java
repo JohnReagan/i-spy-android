@@ -304,7 +304,7 @@ public class CameraPhotoCapture extends Activity {
                     double factor = (double) bitmap.getWidth() / (double) bitmap.getHeight();
 
                     //newBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500 * (int) factor, true);
-                    newBitmap = Bitmap.createScaledBitmap(bitmap, 800, 800, true);
+                    newBitmap = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
 
                     bitmap.recycle();
 
