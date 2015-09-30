@@ -2,17 +2,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <ImageView
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:id="@+id/photoView"/>
+        android:id="@+id/backButton"
+        android:text="Back"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"/>
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/backButton"
         android:id="@+id/photoText"
+        android:textSize="20sp"
         android:text="I spy something... "
-        android:layout_below="@+id/photoView"
         android:textColor="#000000"
         />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/photoText"
+        android:id="@+id/photoView"/>
+
+
+
+
 </RelativeLayout>

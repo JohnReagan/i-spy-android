@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,9 +29,15 @@ public class AndroidCustomGallery extends Activity {
     private boolean[] thumbnailsselection;
     private String[] arrPath;
     private ImageAdapter imageAdapter;
+    static String[] files;
 
     Button selectBtn;
-
+    public static Bitmap[] removeElement(Bitmap[] original, int element) {
+        Bitmap[] n = new Bitmap[original.length - 1];
+        System.arraycopy(original, 0, n, 0, element);
+        System.arraycopy(original, element+1, n, element, original.length-element-1);
+        return n;
+    }
     /**
      * Called when the activity is first created.
      */
@@ -43,9 +51,10 @@ public class AndroidCustomGallery extends Activity {
         Cursor imagecursor = managedQuery(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
                 null, orderBy);
-        int image_column_index = imagecursor.getColumnIndex(MediaStore.Images.Media._ID);
+        int image_column_index = imagecursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID);
         this.count = imagecursor.getCount();
         this.thumbnails = new Bitmap[this.count];
+        files = new String[this.count];
         this.arrPath = new String[this.count];
         this.thumbnailsselection = new boolean[this.count];
         for (int i = 0; i < this.count; i++) {
@@ -55,9 +64,10 @@ public class AndroidCustomGallery extends Activity {
             thumbnails[i] = MediaStore.Images.Thumbnails.getThumbnail(
                     getApplicationContext().getContentResolver(), id,
                     MediaStore.Images.Thumbnails.MICRO_KIND, null);
+
             arrPath[i] = imagecursor.getString(dataColumnIndex);
         }
-        GridView imagegrid = (GridView) findViewById(R.id.PhoneImageGrid);
+        final GridView imagegrid = (GridView) findViewById(R.id.PhoneImageGrid);
         imageAdapter = new ImageAdapter();
         imagegrid.setAdapter(imageAdapter);
 
@@ -80,50 +90,34 @@ public class AndroidCustomGallery extends Activity {
                             "Please select at least one image",
                             Toast.LENGTH_LONG).show();
                 } else {
-                    File img = new File(arrPath[0]);
-                    if (img.exists()) {
+                    for(int i = 0; i < files.length; i++) {
+                        if (files[i] != null) {
+                            File img = new File(files[i]);
+                            if (img.exists()) {
+                                Log.d("ImageDeleted", files[i]);
+                                img.delete();
+                                thumbnails[i] = null;
+                                sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
 
-                        Intent newIntent = new Intent(AndroidCustomGallery.this,
-                                PhotoView.class);
-                        newIntent.setAction(Intent.ACTION_SEND);
-                        newIntent.putExtra("img", arrPath[0]);
-                        startActivity(newIntent);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "File does not exist", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.d("Error", files[i]);
+                            }
+                        }
+
                     }
+                    //recreate();
+                    //sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+                    imageAdapter.notifyDataSetChanged();
+                    imagegrid.setAdapter(imageAdapter);
+                    finish();
+                    startActivity(getIntent());
 
-                    Log.d("arrPath", arrPath[0]);
-                    Log.d("SelectedImages", selectImages);
-                }
-            }
-        });
+                    //Log.d("arrPath", arrPath[0]);
+                    //Log.d("SelectedImages", selectImages);
 
-        final Button deleteBtn = (Button) findViewById(R.id.deleteBtn);
-        deleteBtn.setOnClickListener(new OnClickListener() {
 
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                final int len = thumbnailsselection.length;
-                int cnt = 0;
-                String selectImages = "";
-                for (int i =0; i<len; i++)
-                {
-                    if (thumbnailsselection[i]){
-                        cnt++;
-                        selectImages = selectImages + arrPath[i] + "|";
-                    }
                 }
-                if (cnt == 0){
-                    Toast.makeText(getApplicationContext(),
-                            "Please select at least one image",
-                            Toast.LENGTH_LONG).show();
-                } else {
-                    for (int i = 0; i < cnt; i++) {
-                        File file = new File(arrPath[i]);
-                        file.delete();
-                        imageAdapter.notifyDataSetChanged();
-                    }
-                }
+
             }
         });
     }
@@ -132,6 +126,7 @@ public class AndroidCustomGallery extends Activity {
 
 
     public class ImageAdapter extends BaseAdapter {
+
         private LayoutInflater mInflater;
 
         public ImageAdapter() {
@@ -163,6 +158,10 @@ public class AndroidCustomGallery extends Activity {
             }
             else {
                 holder = (ViewHolder) convertView.getTag();
+                if (thumbnails[position] != null) {
+                    holder.imageview.setImageBitmap(thumbnails[position]);
+                    holder.checkbox.setChecked(thumbnailsselection[position]);
+                }
             }
             holder.checkbox.setId(position);
             holder.imageview.setId(position);
@@ -178,6 +177,10 @@ public class AndroidCustomGallery extends Activity {
                     } else {
                         cb.setChecked(true);
                         thumbnailsselection[id] = true;
+                        //Log.d("ID", "" + id);
+                        //Log.d("ArrPath", "" + arrPath[id]);
+                        files[id] = arrPath[id];
+                        //Log.d("Files", "" + files[id]);
                     }
                 }
             });

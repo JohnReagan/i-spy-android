@@ -3,15 +3,9 @@
     android:layout_width="fill_parent" android:layout_height="fill_parent">
     <Button android:id="@+id/selectBtn"
         android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Select" android:layout_alignParentBottom="true"
+        android:text="Delete" android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:minWidth="200px"/>
-    <Button android:id="@+id/deleteBtn"
-        android:layout_width="wrap_content" android:layout_height="wrap_content"
-        android:text="Delete" android:layout_alignParentBottom="true"
-
-        android:minWidth="200px"
-        android:layout_above="@+id/selectBtn"/>
     <GridView android:id="@+id/PhoneImageGrid"
         android:layout_width="fill_parent" android:layout_height="fill_parent"
         android:numColumns="auto_fit" android:verticalSpacing="10dp"

@@ -103,10 +103,19 @@ public class CameraPhotoCapture extends Activity {
 
                 String imageId = convertImageUriToFile( imageUri,CameraActivity);
 
-
+                //Intent newIntent = new Intent(CameraPhotoCapture.this, AndroidCustomGallery.class);
+                //startActi
                 //  Create and excecute AsyncTask to load capture image
-
-                new LoadImagesFromSDCard().execute(""+imageId);
+                String[] stores = {MediaStore.Images.Media.DATA};
+                Cursor c = CameraActivity.getContentResolver().query(imageUri, stores, null, null, null);
+                int fileindex = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                c.moveToFirst();
+                String path = c.getString(fileindex);
+                Intent newIntent = new Intent(CameraPhotoCapture.this, PhotoView.class);
+                newIntent.putExtra("imgB", path);
+                newIntent.setAction(Intent.ACTION_SEND);
+                startActivity(newIntent);
+                //new LoadImagesFromSDCard().execute(""+imageId);
 
                 /*********** Load Captured Image And Data End ****************/
 
@@ -139,7 +148,7 @@ public class CameraPhotoCapture extends Activity {
                     MediaStore.Images.ImageColumns.ORIENTATION
             };
 
-            cursor = activity.managedQuery(
+            cursor = activity.getContentResolver().query(
 
                     imageUri,         //  Get data for specific image URI
                     proj,             //  Which columns to return
