@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
+import edu.virginia.cs.cs4720.ispy.SpyPicture;
+
 /**
  * Created by john on 9/29/15.
  */
@@ -28,7 +32,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(
                 "create table pictures " +
-                        "(id integer primary key, path text, x integer, y integer, " +
+                        "(id integer primary key, path text, x float, y float, " +
                         "latitude double, longitude double, color text)"
         );
 
@@ -40,7 +44,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertPicture (String path, int x, int y, double lat, double lng, String color) {
+    public boolean insertPicture (String path, float x, float y, double lat, double lng, String color) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("path", path);
@@ -57,5 +61,33 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from pictures where id="+id+"", null);
         return res;
+    }
+
+    public Cursor getPictureByPath(String path) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from pictures where path=\'" + path + "\'", null);
+        return res;
+    }
+
+    public ArrayList<SpyPicture> getPictures () {
+        ArrayList<SpyPicture> pictureList = new ArrayList<SpyPicture>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor res = db.rawQuery("select * from pictures", null);
+        res.moveToFirst();
+
+        while (!res.isAfterLast()) {
+            SpyPicture pic = new SpyPicture(res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)),
+                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)),
+                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR)),
+                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X)),
+                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y)),
+                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE)),
+                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE)));
+
+            pictureList.add(pic);
+        }
+
+        return pictureList;
     }
 }
