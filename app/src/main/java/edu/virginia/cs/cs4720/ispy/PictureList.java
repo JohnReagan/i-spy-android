@@ -50,6 +50,7 @@ public class PictureList extends ListActivity{
         //desired columns to be bound
         String[] columns = new String[] {
             DBHelper.PICTURES_COLUMN_PATH,
+            DBHelper.PICTURES_COLUMN_PATH,
             DBHelper.PICTURES_COLUMN_COLOR,
             DBHelper.PICTURES_COLUMN_LATITUDE,
             DBHelper.PICTURES_COLUMN_LONGITUDE
@@ -57,6 +58,7 @@ public class PictureList extends ListActivity{
 
         //xml views data will bind to
         int[] to = new int[] {
+                R.id.image,
                 R.id.path,
                 R.id.color,
                 R.id.latitude,

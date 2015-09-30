@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <!--<ImageView-->
-        <!--android:id="@+id/image"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_alignParentTop="true"-->
-        <!--android:layout_alignParentLeft="true"/>-->
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="100px"
+        android:layout_height="100px"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"/>
 
     <!-- labels -->
     <TextView
@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/image"
         android:text="Path: "
         android:textAppearance="?android:attr/textAppearanceMedium"
         />
