@@ -32,6 +32,7 @@ public class AndroidCustomGallery extends Activity {
     static String[] files;
 
     Button selectBtn;
+    Button homeButt;
     public static Bitmap[] removeElement(Bitmap[] original, int element) {
         Bitmap[] n = new Bitmap[original.length - 1];
         System.arraycopy(original, 0, n, 0, element);
@@ -71,6 +72,15 @@ public class AndroidCustomGallery extends Activity {
         imageAdapter = new ImageAdapter();
         imagegrid.setAdapter(imageAdapter);
 
+        homeButt = (Button)findViewById(R.id.home2);
+        homeButt.setOnClickListener(new OnClickListener() {
+
+            public void onClick(View v) {
+                Intent intent = new Intent(AndroidCustomGallery.this, MainActivity.class);
+                finish();
+                startActivity(intent);
+            }
+        });
         selectBtn = (Button) findViewById(R.id.selectBtn);
         selectBtn.setOnClickListener(new OnClickListener() {
 

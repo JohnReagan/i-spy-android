@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 public class CameraPhotoCapture extends Activity {
     final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
-
+    static String[] filePaths = null;
 
     Uri imageUri                      = null;
     static TextView imageDetails      = null;
@@ -45,6 +45,8 @@ public class CameraPhotoCapture extends Activity {
 
         final Button photo = (Button) findViewById(R.id.photo);
 
+        final Button home = (Button)findViewById(R.id.home);
+
 
 
         photo.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +65,8 @@ public class CameraPhotoCapture extends Activity {
                 values.put(MediaStore.Images.Media.TITLE, fileName);
 
                 values.put(MediaStore.Images.Media.DESCRIPTION,"Image capture by camera");
+
+
 
                 // imageUri is the current activity attribute, define and save it for later usage
 
@@ -88,6 +92,15 @@ public class CameraPhotoCapture extends Activity {
 
             }
 
+        });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraPhotoCapture.this, MainActivity.class);
+                finish();
+                startActivity(intent);
+            }
         });
     }
 
@@ -303,5 +316,6 @@ public class CameraPhotoCapture extends Activity {
         }
 
     }
+
 
 }

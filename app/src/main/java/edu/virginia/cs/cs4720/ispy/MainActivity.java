@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button b1, b2;
     Button camButt;
     Button galButt;
+    Button guessButt;
     TextView tv;
     EditText et;
     int TAKE_PIC = 1;
@@ -44,10 +45,13 @@ public class MainActivity extends AppCompatActivity {
         ivImage = (ImageView)findViewById(R.id.ivImage);
 
 
+        guessButt = (Button)findViewById(R.id.guessButt);
+        guessButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-
-
+            }
+        });
 
         camButt = (Button)findViewById(R.id.myButt);
 
