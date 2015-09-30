@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
         galButt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                Intent i = new Intent(MainActivity.this, AndroidCustomGallery.class);
+                Intent i = new Intent(MainActivity.this, PictureList.class);
                 startActivity(i);
             }
         });

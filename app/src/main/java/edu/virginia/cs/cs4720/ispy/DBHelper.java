@@ -16,7 +16,7 @@ import edu.virginia.cs.cs4720.ispy.SpyPicture;
 public class DBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "ISpy.db";
     public static final String PICTURES_TABLE_NAME = "pictures";
-    public static final String PICTURES_COLUMN_ID = "id";
+    public static final String PICTURES_COLUMN_ID = "_id";
     public static final String PICTURES_COLUMN_PATH = "path";
     public static final String PICTURES_COLUMN_X = "x";
     public static final String PICTURES_COLUMN_Y = "y";
@@ -24,17 +24,23 @@ public class DBHelper extends SQLiteOpenHelper {
     public static final String PICTURES_COLUMN_LONGITUDE = "longitude";
     public static final String PICTURES_COLUMN_COLOR = "color";
 
+    private static final String DATABASE_CREATE =
+        "create table if not exists " + PICTURES_TABLE_NAME + " (" +
+        PICTURES_COLUMN_ID + " integer primary key autoincrement," +
+        PICTURES_COLUMN_PATH + " text," +
+        PICTURES_COLUMN_X + " float," +
+        PICTURES_COLUMN_Y + " float," +
+        PICTURES_COLUMN_LATITUDE + " double," +
+        PICTURES_COLUMN_LONGITUDE + " double," +
+        PICTURES_COLUMN_COLOR + " text)";
+
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(
-                "create table pictures " +
-                        "(id integer primary key, path text, x float, y float, " +
-                        "latitude double, longitude double, color text)"
-        );
+        db.execSQL(DATABASE_CREATE);
 
     }
 
@@ -69,25 +75,28 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public ArrayList<SpyPicture> getPictures () {
-        ArrayList<SpyPicture> pictureList = new ArrayList<SpyPicture>();
+    public Cursor getPictures () {
+//    public ArrayList<SpyPicture> getPictures () {
+        //ArrayList<SpyPicture> pictureList = new ArrayList<SpyPicture>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from pictures", null);
-        res.moveToFirst();
 
-        while (!res.isAfterLast()) {
-            SpyPicture pic = new SpyPicture(res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)),
-                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)),
-                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR)),
-                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X)),
-                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y)),
-                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE)),
-                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE)));
-
-            pictureList.add(pic);
+        if (res != null) {
+            res.moveToFirst();
         }
+//        while (!res.isAfterLast()) {
+//            SpyPicture pic = new SpyPicture(res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)),
+//                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)),
+//                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR)),
+//                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X)),
+//                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y)),
+//                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE)),
+//                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE)));
+//
+//            pictureList.add(pic);
+//        }
 
-        return pictureList;
+        return res;
     }
 }
