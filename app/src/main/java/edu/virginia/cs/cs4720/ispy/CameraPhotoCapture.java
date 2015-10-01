@@ -28,7 +28,7 @@ import java.io.IOException;
  */
 public class CameraPhotoCapture extends Activity {
     final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
-
+    static String[] filePaths = null;
 
     Uri imageUri                      = null;
     static TextView imageDetails      = null;
@@ -59,6 +59,7 @@ public class CameraPhotoCapture extends Activity {
         showImg.setAdjustViewBounds(true);
 
         Button saveBtn = (Button) findViewById(R.id.saveBtn);
+        final Button home = (Button)findViewById(R.id.home);
 
 
 
@@ -78,6 +79,8 @@ public class CameraPhotoCapture extends Activity {
                 values.put(MediaStore.Images.Media.TITLE, fileName);
 
                 values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
+
+
 
                 // imageUri is the current activity attribute, define and save it for later usage
 
@@ -133,6 +136,16 @@ public class CameraPhotoCapture extends Activity {
                 savePicToDatabase();
             }
         });
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraPhotoCapture.this, MainActivity.class);
+                finish();
+                startActivity(intent);
+
+            }
+        });
     }
 
 
@@ -147,9 +160,18 @@ public class CameraPhotoCapture extends Activity {
 
                 String imageId = convertImageUriToFile( imageUri,CameraActivity);
 
-
+                //Intent newIntent = new Intent(CameraPhotoCapture.this, AndroidCustomGallery.class);
+                //startActi
                 //  Create and excecute AsyncTask to load capture image
-
+//                String[] stores = {MediaStore.Images.Media.DATA};
+//                Cursor c = CameraActivity.getContentResolver().query(imageUri, stores, null, null, null);
+//                int fileindex = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//                c.moveToFirst();
+//                String path = c.getString(fileindex);
+//                Intent newIntent = new Intent(CameraPhotoCapture.this, PhotoView.class);
+//                newIntent.putExtra("imgB", path);
+//                newIntent.setAction(Intent.ACTION_SEND);
+//                startActivity(newIntent);
                 new LoadImagesFromSDCard().execute(""+imageId);
 
                 /*********** Load Captured Image And Data End ****************/
@@ -232,7 +254,7 @@ public class CameraPhotoCapture extends Activity {
                     MediaStore.Images.ImageColumns.ORIENTATION
             };
 
-            cursor = activity.managedQuery(
+            cursor = activity.getContentResolver().query(
 
                     imageUri,         //  Get data for specific image URI
                     proj,             //  Which columns to return
@@ -277,7 +299,7 @@ public class CameraPhotoCapture extends Activity {
 
                     //String orientation =  cursor.getString(orientation_ColumnIndex);
 
-                    String CapturedImageDetails = " CapturedImageDetails: \n";
+                    String CapturedImageDetails = "Image Details: \n";
 
                     // Show Captured Image detail on activity
                     imageDetails.setText( CapturedImageDetails );
@@ -390,5 +412,6 @@ public class CameraPhotoCapture extends Activity {
         }
 
     }
+
 
 }

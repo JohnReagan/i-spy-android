@@ -2,11 +2,18 @@ package edu.virginia.cs.cs4720.ispy;
 
 import android.app.ListActivity;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+
+import java.io.File;
 
 import edu.virginia.cs.cs4720.ispy.DBHelper;
 
@@ -30,16 +37,6 @@ public class PictureList extends ListActivity{
         // requerying or closing it as the activity changes state.
         myDb = new DBHelper(this);
 
-        // Now create a new list adapter bound to the cursor.
-        // SimpleListAdapter is designed for binding to a Cursor.
-//        ListAdapter adapter = new ArrayAdapter<SpyPicture>(
-//                this, // Context.
-//                android.R.layout.activity_list_item,  // Specify the row template to use (here, two columns bound to the two retrieved cursor
-//                myDb.getPictures());
-
-
-        // Bind to our new adapter.
-        //setListAdapter(adapter);
 
         displayList();
     }
@@ -73,6 +70,27 @@ public class PictureList extends ListActivity{
                 columns,
                 to,
                 0);
+
+        dataAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {
+            public boolean setViewValue (View view, Cursor cursor, int columnIndex) {
+                if (view.getId() == R.id.image) {
+                    String path = cursor.getString(cursor.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH));
+                    Bitmap bitmap = null;
+                    //Bitmap thumbnail = null;
+                    ImageView imageView = (ImageView) view;
+
+                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+
+                    bitmap = BitmapFactory.decodeFile(path, bmOptions);
+                    bitmap = Bitmap.createScaledBitmap(bitmap,100,100,true);
+                    imageView.setImageBitmap(bitmap);
+
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
         setListAdapter(dataAdapter);
     }

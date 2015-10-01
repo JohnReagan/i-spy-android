@@ -3,101 +3,85 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="#3D3737"
+    android:background="#8dabba"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <TextView android:text="GPS Example" android:layout_width="wrap_content"
+    <TextView android:text="@string/welcome" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textview"
-        android:textSize="35dp"
+        android:textSize="35sp"
+        android:textStyle="italic"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textColor="#ff7aff24"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textColor="#000000"
         />
 
-
-
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="GPS App"
-        android:id="@+id/textView"
-        android:layout_below="@+id/textview"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
         android:layout_centerHorizontal="true"
-        android:textColor="#ff7aff24"
-        android:textSize="35dp" />
+        android:id="@+id/row1">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:textColor="#ff7aff24"
-        android:textSize="35dp"
-        />
-
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Take a picture!"
-        android:id="@+id/myButt"
-        android:background="#0054a6"
-        />
-    <FrameLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View gallery!"
-            android:id="@+id/galButt"
-            android:background="#0054a6"
-            android:layout_gravity="bottom|right"
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/picture"
+            android:textSize="13sp"
+            android:id="@+id/myButt"
+            android:background="@drawable/button"
             />
 
-    </FrameLayout>
+        <Button
+            android:layout_width="0.0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:text="@string/gallery"
+            android:id="@+id/galButt"
+            android:textSize="13sp"
+            android:background="@drawable/button"
+            />
 
+    </LinearLayout>
 
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get coordinates"
-        android:id="@+id/button"
-        android:layout_below="@+id/textView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="86dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:id="@+id/edit"
-        android:layout_below="@+id/button"
-        android:layout_centerHorizontal="true"
-        android:background="#CCCCCC"
-        android:ems="10"
-        android:inputType="textPersonName"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/edit"
-        android:text="Enter text"
-        android:id="@+id/button1"
-
-        />
-
-    <!--<Button-->
+    <!--<LinearLayout-->
         <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" -->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_centerInParent="true"-->
         <!--android:layout_centerHorizontal="true"-->
-        <!--android:text/>-->
+        <!--android:id="@+id/row2"-->
+        <!--android:layout_above="@+id/row1"-->
+        <!--android:layout_marginBottom="20dp">-->
+
+            <!--<Button-->
+                <!--android:layout_width="0.0dip"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="@string/score"-->
+                <!--android:textSize="13sp"-->
+                <!--android:id="@+id/scoreButt"-->
+                <!--android:background="@drawable/button"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginEnd="10dp"-->
+                <!--/>-->
+
+            <!--<Button-->
+                <!--android:layout_width="0.0dip"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="@string/guess"-->
+                <!--android:id="@+id/guessButt"-->
+                <!--android:background="@drawable/button"-->
+                <!--/>-->
+    <!--</LinearLayout>-->
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
