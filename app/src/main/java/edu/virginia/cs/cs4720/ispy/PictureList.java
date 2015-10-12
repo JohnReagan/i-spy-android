@@ -1,6 +1,7 @@
 package edu.virginia.cs.cs4720.ispy;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -100,7 +101,10 @@ public class PictureList extends ListActivity{
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Toast.makeText(getApplicationContext(), "ID: " + id, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "ID: " + id, Toast.LENGTH_LONG).show();
+        Intent i = new Intent(PictureList.this, GuessActivity.class);
+        i.putExtra("id", id);
+        startActivity(i);
     }
 }
 
