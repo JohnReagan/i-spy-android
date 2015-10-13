@@ -1,5 +1,7 @@
 package edu.virginia.cs.cs4720.ispy;
 
+import android.database.Cursor;
+
 /**
  * Created by john on 9/29/15.
  */
@@ -21,6 +23,17 @@ public class SpyPicture {
         this.latitude = latitude;
         this.longitude = longitude;
     }
+
+    public SpyPicture (Cursor res) {
+        this.id = res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID));
+        this.path = res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH));
+        this.color = res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR));
+        this.x = res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X));
+        this.y = res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y));
+        this.latitude = res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE));
+        this.longitude = res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE));
+    }
+
 
     public int getId() {
         return id;

@@ -63,9 +63,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return true;
     }
 
-    public Cursor getPicture(int id) {
+    public Cursor getPicture(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from pictures where id="+id+"", null);
+        Cursor res = db.rawQuery("select * from pictures where " + DBHelper.PICTURES_COLUMN_ID + "=" + (int) id + "", null);
+
         return res;
     }
 

@@ -10,14 +10,6 @@
         android:orientation="horizontal"
         android:id="@+id/buttons">
 
-        <Button
-            android:text="Home"
-            android:id="@+id/home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            />
 
         <Button android:text="Capture Photo"
             android:id="@+id/photo"

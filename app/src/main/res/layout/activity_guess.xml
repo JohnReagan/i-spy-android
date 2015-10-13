@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    tools:context=".GuessActivity">
+
+    <ImageView
+        android:id="@+id/showImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_below="@+id/showImage"
+        android:textSize="32sp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/guessText"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:textSize="32sp"/>
+    <!--<TextView
+        android:id="@+id/guessNum"
+        android:textSize="32sp"
+        android:layout_toRightOf="@+id/guessText"
+        android:layout_toEndOf="@+id/guessText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />-->
+
+
+</RelativeLayout>

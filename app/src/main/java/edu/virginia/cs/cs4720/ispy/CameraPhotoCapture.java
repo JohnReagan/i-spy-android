@@ -12,6 +12,7 @@ import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,7 +60,7 @@ public class CameraPhotoCapture extends Activity {
         showImg.setAdjustViewBounds(true);
 
         Button saveBtn = (Button) findViewById(R.id.saveBtn);
-        final Button home = (Button)findViewById(R.id.home);
+
 
 
 
@@ -79,7 +80,6 @@ public class CameraPhotoCapture extends Activity {
                 values.put(MediaStore.Images.Media.TITLE, fileName);
 
                 values.put(MediaStore.Images.Media.DESCRIPTION, "Image capture by camera");
-
 
 
                 // imageUri is the current activity attribute, define and save it for later usage
@@ -117,13 +117,11 @@ public class CameraPhotoCapture extends Activity {
                 showImg.getImageMatrix().invert(inverse);
 
                 // map touch point from ImageView to image
-                float[] touchPoint = new float[] {event.getX(), event.getY()};
+                float[] touchPoint = new float[]{event.getX(), event.getY()};
                 inverse.mapPoints(touchPoint);
 
                 x = touchPoint[0];
                 y = touchPoint[1];
-
-                Toast.makeText(getApplicationContext(), "X: " + x + "\nY: " + x, Toast.LENGTH_LONG).show();
 
                 updateCoordsText(touchPoint[0], touchPoint[1]);
 
@@ -137,15 +135,7 @@ public class CameraPhotoCapture extends Activity {
             }
         });
 
-        home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CameraPhotoCapture.this, MainActivity.class);
-                finish();
-                startActivity(intent);
 
-            }
-        });
     }
 
 
@@ -223,6 +213,14 @@ public class CameraPhotoCapture extends Activity {
                             "\npath: " + rs.getString(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)) +
                             "\ncolor: " + rs.getString(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR));
                     Toast.makeText(getApplicationContext(), info, Toast.LENGTH_LONG).show();
+                    Handler handle = new Handler();
+                    Runnable r = new Runnable() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    };
+                    handle.postDelayed(r, 3000);
                     return true;
                 } else {
                     Toast.makeText(getApplicationContext(), "Specify coordinates", Toast.LENGTH_LONG).show();

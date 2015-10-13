@@ -1,6 +1,7 @@
 package edu.virginia.cs.cs4720.ispy;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -46,6 +48,7 @@ public class PictureList extends ListActivity{
 
         //desired columns to be bound
         String[] columns = new String[] {
+            DBHelper.PICTURES_COLUMN_ID,
             DBHelper.PICTURES_COLUMN_PATH,
             DBHelper.PICTURES_COLUMN_PATH,
             DBHelper.PICTURES_COLUMN_COLOR,
@@ -55,6 +58,7 @@ public class PictureList extends ListActivity{
 
         //xml views data will bind to
         int[] to = new int[] {
+                R.id.id,
                 R.id.image,
                 R.id.path,
                 R.id.color,
@@ -93,6 +97,14 @@ public class PictureList extends ListActivity{
         });
 
         setListAdapter(dataAdapter);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        //Toast.makeText(getApplicationContext(), "ID: " + id, Toast.LENGTH_LONG).show();
+        Intent i = new Intent(PictureList.this, GuessActivity.class);
+        i.putExtra("id", id);
+        startActivity(i);
     }
 }
 
