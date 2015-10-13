@@ -18,7 +18,7 @@
         android:id="@+id/textView"
         android:layout_below="@+id/showImage"
         android:textSize="32sp"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <TextView
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/textView"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:textSize="32sp"/>
     <!--<TextView
         android:id="@+id/guessNum"

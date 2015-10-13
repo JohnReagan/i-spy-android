@@ -2,7 +2,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="app_name">I Spy</string>
-    <string name="gallery">View gallery</string>
+    <string name="gallery">Play Now</string>
     <string name="score">Scoreboard</string>
     <string name="guess">Guess</string>
     <string name="picture">Take a picture</string>
