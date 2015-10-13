@@ -11,4 +11,12 @@
     <string name="title_activity_android_custom_gallery">AndroidCustomGallery</string>
     <string name="title_activity_picture_list">Picture List</string>
     <string name="title_activity_guess">Guess Activity</string>
+
+    <string-array name="spinner_array">
+        <item>Any</item>
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
 </resources>

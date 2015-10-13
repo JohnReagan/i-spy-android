@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 /**
  * Created by john on 10/11/15.
  */
@@ -27,6 +28,7 @@ public class GuessActivity extends Activity {
         TextView guessText = (TextView)findViewById(R.id.guessText);
         guessText.setText(str);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class GuessActivity extends Activity {
         myDb = new DBHelper(this);
         long id = intent.getLongExtra("id", -1L);
         final TextView textView = (TextView) findViewById(R.id.textView);
-//        textView.setText("ID: " + id);
+
         if (id == -1L) {
             textView.setText("Could not get id from intent.");
         } else {

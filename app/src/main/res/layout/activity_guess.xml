@@ -28,13 +28,6 @@
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:textSize="32sp"/>
-    <!--<TextView
-        android:id="@+id/guessNum"
-        android:textSize="32sp"
-        android:layout_toRightOf="@+id/guessText"
-        android:layout_toEndOf="@+id/guessText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />-->
 
 
 </RelativeLayout>

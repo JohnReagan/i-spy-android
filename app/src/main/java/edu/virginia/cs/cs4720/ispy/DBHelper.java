@@ -76,28 +76,25 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public Cursor getPictures () {
-//    public ArrayList<SpyPicture> getPictures () {
-        //ArrayList<SpyPicture> pictureList = new ArrayList<SpyPicture>();
+//    public Cursor getPictures () {
+    public ArrayList<SpyPicture> getPictures () {
+        ArrayList<SpyPicture> pictures = new ArrayList<SpyPicture>();
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from pictures", null);
 
-        if (res != null) {
-            res.moveToFirst();
-        }
-//        while (!res.isAfterLast()) {
-//            SpyPicture pic = new SpyPicture(res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)),
-//                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)),
-//                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR)),
-//                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X)),
-//                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y)),
-//                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE)),
-//                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE)));
-//
-//            pictureList.add(pic);
-//        }
+        while (res.moveToNext()) {
+            SpyPicture pic = new SpyPicture(res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)),
+                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)),
+                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR)),
+                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X)),
+                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y)),
+                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE)),
+                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE)));
 
-        return res;
+            pictures.add(pic);
+        }
+
+        return pictures;
     }
 }
