@@ -123,8 +123,6 @@ public class CameraPhotoCapture extends Activity {
                 x = touchPoint[0];
                 y = touchPoint[1];
 
-                Toast.makeText(getApplicationContext(), "X: " + x + "\nY: " + x, Toast.LENGTH_LONG).show();
-
                 updateCoordsText(touchPoint[0], touchPoint[1]);
 
                 return false;
