@@ -83,7 +83,6 @@ public class GuessActivity extends Activity {
                         } else {
                             guesses++;
                             update(guesses);
-                            Toast.makeText(getApplicationContext(), "Guess again: X = " + x + "Y= " + y, Toast.LENGTH_SHORT).show();
                         }
                         return false;
                     }
