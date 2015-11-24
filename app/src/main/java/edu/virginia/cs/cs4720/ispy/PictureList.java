@@ -1,6 +1,7 @@
 package edu.virginia.cs.cs4720.ispy;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -18,8 +19,13 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.virginia.cs.cs4720.ispy.DBHelper;
 
@@ -39,6 +45,7 @@ public class PictureList extends ListActivity implements AdapterView.OnItemSelec
 
         setContentView(R.layout.activity_list);
         Log.d("pictureList", "test startup");
+        final Context that = this;
 
         // set up spinner
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
@@ -55,17 +62,38 @@ public class PictureList extends ListActivity implements AdapterView.OnItemSelec
         // populate list view
         myDb = new DBHelper(this);
         filteredPictures = new ArrayList<SpyPicture>();
+        pictures = new ArrayList<SpyPicture>();
 
         //get pictures from DB
-        pictures = myDb.getPictures();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Picture");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> pictureList, com.parse.ParseException e) {
+                if (e == null) {
+                    Log.d("score", "Retrieved " + pictureList.size() + " scores");
+                    for (int i = 0; i < pictureList.size(); i++) {
+                        ParseObject f = pictureList.get(i);
+                        SpyPicture pic = new SpyPicture(f.getObjectId(), f.getString("path"), f.getString("color"), f.getNumber("x").floatValue(), f.getNumber("y").floatValue(), f.getNumber("latitude").doubleValue(), f.getNumber("longitude").doubleValue());
+                        pictures.add(pic);
+                        Log.d("Picture", pictures.get(i).toString());
+                    }
 
-        for (SpyPicture picture : pictures) {
-            filteredPictures.add(picture);
-        }
+                    for (SpyPicture picture : pictures) {
+                        filteredPictures.add(picture);
+                    }
 
-        // attach adapter
-        myAdapter = new SpyPictureAdapter(this, R.layout.picture_card, filteredPictures);
+                    myAdapter.notifyDataSetChanged();
+
+
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
+
+        myAdapter = new SpyPictureAdapter(that, R.layout.picture_card, filteredPictures);
         setListAdapter(myAdapter);
+        // attach adapter
+
 
         gps = new GPS(this);
 
@@ -76,7 +104,7 @@ public class PictureList extends ListActivity implements AdapterView.OnItemSelec
     public void onListItemClick(ListView l, View v, int position, long id) {
         //Toast.makeText(getApplicationContext(), "ID: " + id, Toast.LENGTH_LONG).show();
         Intent i = new Intent(PictureList.this, GuessActivity.class);
-        long newId = pictures.get(position).getId();
+        String newId = pictures.get(position).getId();
         i.putExtra("id", newId);
         startActivity(i);
     }

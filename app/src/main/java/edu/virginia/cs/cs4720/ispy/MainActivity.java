@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 import java.util.List;
 
 public class MainActivity extends Activity {
@@ -43,6 +46,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ivImage = (ImageView)findViewById(R.id.ivImage);
+        //Parse.enableLocalDatastore(this);
+        //Parse.initialize(this, "LODmoenJcpDk44AAQzVVXym6wASNhosUAqq5V5JO", "MPq7ajGm8JnFfRJK127nYYTNEjf99RBZ8hKLE8ED");
 
 
 //        guessButt = (Button)findViewById(R.id.guessButt);

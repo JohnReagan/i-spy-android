@@ -5,8 +5,18 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
 
+import com.parse.FindCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+
+import java.io.ByteArrayOutputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.virginia.cs.cs4720.ispy.SpyPicture;
 
@@ -51,15 +61,22 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertPicture (String path, float x, float y, double lat, double lng, String color) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
+        //SQLiteDatabase db = this.getWritableDatabase();
+        //ContentValues contentValues = new ContentValues();
+        /*BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();*/
+        ParseObject contentValues = new ParseObject("Picture");
         contentValues.put("path", path);
         contentValues.put("x", x);
         contentValues.put("y", y);
         contentValues.put("latitude", lat);
         contentValues.put("longitude", lng);
         contentValues.put("color", color);
-        db.insert("pictures", null, contentValues);
+        contentValues.saveInBackground();
+        //db.insert("pictures", null, contentValues);
         return true;
     }
 
@@ -78,22 +95,39 @@ public class DBHelper extends SQLiteOpenHelper {
 
 //    public Cursor getPictures () {
     public ArrayList<SpyPicture> getPictures () {
-        ArrayList<SpyPicture> pictures = new ArrayList<SpyPicture>();
+        final ArrayList<SpyPicture> pictures = new ArrayList<SpyPicture>();
+//
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        Cursor res = db.rawQuery("select * from pictures", null);
+//
+//        while (res.moveToNext()) {
+//            SpyPicture pic = new SpyPicture(res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)),
+//                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)),
+//                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR)),
+//                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X)),
+//                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y)),
+//                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE)),
+//                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE)));
+//
+//            pictures.add(pic);
+//        }
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Picture");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> scoreList, com.parse.ParseException e) {
+                if (e == null) {
+                    Log.d("score", "Retrieved " + scoreList.size() + " scores");
+                    for(int i = 0; i < scoreList.size(); i++) {
+                        ParseObject f = scoreList.get(i);
+                        SpyPicture pic = new SpyPicture(f.getString("objectID"), f.getString("path"), f.getString("color"), f.getNumber("x").floatValue(), f.getNumber("y").floatValue(), f.getNumber("latitude").doubleValue(), f.getNumber("longitude").doubleValue());
+                        pictures.add(pic);
+                        Log.d("Picture", pictures.get(i).toString());
+                    }
+                } else {
+                    Log.d("score", "Error: " + e.getMessage());
+                }
+            }
+        });
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res = db.rawQuery("select * from pictures", null);
-
-        while (res.moveToNext()) {
-            SpyPicture pic = new SpyPicture(res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)),
-                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)),
-                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR)),
-                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X)),
-                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y)),
-                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE)),
-                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE)));
-
-            pictures.add(pic);
-        }
 
         return pictures;
     }

@@ -207,12 +207,14 @@ public class CameraPhotoCapture extends Activity {
                 if (x >= 0 && y >= 0) {
                     myDb.insertPicture(path, x, y, latitude, longitude, color);
                     //Toast.makeText(getApplicationContext(), "Picture saved!", Toast.LENGTH_LONG).show();
-                    Cursor rs = myDb.getPictureByPath(path);
-                    rs.moveToFirst();
-                    String info = "id: " + rs.getInt(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)) +
-                            "\npath: " + rs.getString(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)) +
-                            "\ncolor: " + rs.getString(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR));
-                    Toast.makeText(getApplicationContext(), info, Toast.LENGTH_LONG).show();
+
+                    // taken out for parse integration
+//                    Cursor rs = myDb.getPictureByPath(path);
+//                    rs.moveToFirst();
+//                    String info = "id: " + rs.getInt(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)) +
+//                            "\npath: " + rs.getString(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)) +
+//                            "\ncolor: " + rs.getString(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR));
+//                    Toast.makeText(getApplicationContext(), info, Toast.LENGTH_LONG).show();
                     Handler handle = new Handler();
                     Runnable r = new Runnable() {
                         @Override

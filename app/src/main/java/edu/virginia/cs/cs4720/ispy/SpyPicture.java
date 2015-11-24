@@ -6,7 +6,7 @@ import android.database.Cursor;
  * Created by john on 9/29/15.
  */
 public class SpyPicture {
-    private int id;
+    private String id;
     private String path;
     private String color;
     private float x;
@@ -14,7 +14,7 @@ public class SpyPicture {
     private double latitude;
     private double longitude;
 
-    public SpyPicture(int id, String path, String color, float x, float y, double latitude, double longitude) {
+    public SpyPicture(String id, String path, String color, float x, float y, double latitude, double longitude) {
         this.id = id;
         this.path = path;
         this.color = color;
@@ -25,7 +25,7 @@ public class SpyPicture {
     }
 
     public SpyPicture (Cursor res) {
-        this.id = res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID));
+        this.id = res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID));
         this.path = res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH));
         this.color = res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR));
         this.x = res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X));
@@ -35,11 +35,11 @@ public class SpyPicture {
     }
 
 
-    public int getId() {
-        return id;
+    public String getId() {
+        return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
