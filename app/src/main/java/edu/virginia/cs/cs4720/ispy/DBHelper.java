@@ -92,7 +92,6 @@ public class DBHelper extends SQLiteOpenHelper {
         //db.insert("pictures", null, contentValues);
         return true;
     }
-
     public Cursor getPicture(long id) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("select * from pictures where " + DBHelper.PICTURES_COLUMN_ID + "=" + (int) id + "", null);

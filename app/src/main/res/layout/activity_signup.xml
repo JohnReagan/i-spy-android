@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/editUsername"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:hint="@string/usernameHint"
+        android:inputType="text"
+        android:maxLength="15"
+        />
+
+    <EditText
+        android:id="@+id/editPass"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editUsername"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:hint="@string/passwordHint"
+        android:inputType="textPassword"
+        android:maxLength="10"
+        />
+
+    <EditText
+        android:id="@+id/editConfirm"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editPass"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:hint="@string/passwordHint"
+        android:inputType="textPassword"
+        />
+
+    <Button
+        android:id="@+id/accountBtn"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/editPass"
+        android:layout_below="@+id/editConfirm"
+        android:layout_marginTop="25dp"
+        android:text="@string/createAccount"
+        />
+</LinearLayout>

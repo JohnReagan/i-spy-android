@@ -11,7 +11,16 @@
     <string name="title_activity_android_custom_gallery">AndroidCustomGallery</string>
     <string name="title_activity_picture_list">Picture List</string>
     <string name="title_activity_guess">Guess Activity</string>
-
+    <string name="usernameHint">Username</string>
+    <string name="passwordHint">Password</string>
+    <string name="menu_forgot_password">Recover lost password</string>
+    <string name="error_field_req">This field is required</string>
+    <string name="createAccount">Create Account</string>
+    <string name="error_invalid">Passwords do not match</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_register">Create Account</string>
+    <string name="prompt_pass">Password</string>
+    <string name="orText">Or</string>
     <string-array name="spinner_array">
         <item>Any</item>
         <item>1</item>
