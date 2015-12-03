@@ -3,21 +3,15 @@ package edu.virginia.cs.cs4720.ispy;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseFile;
@@ -25,16 +19,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.virginia.cs.cs4720.ispy.DBHelper;
-
 /**
- * Created by john on 9/29/15.
+ * Created by Cole on 12/3/2015.
  */
-public class PictureList extends ListActivity implements AdapterView.OnItemSelectedListener {
+public class myImages extends ListActivity implements AdapterView.OnItemSelectedListener {
     DBHelper myDb;
     SpyPictureAdapter myAdapter;
     ArrayList<SpyPicture> pictures;
@@ -42,7 +33,7 @@ public class PictureList extends ListActivity implements AdapterView.OnItemSelec
     GPS gps;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_list);
@@ -68,7 +59,7 @@ public class PictureList extends ListActivity implements AdapterView.OnItemSelec
 
         //get pictures from DB
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Picture");
-        query.whereNotEqualTo("user", ParseUser.getCurrentUser());
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> pictureList, com.parse.ParseException e) {
                 if (e == null) {
@@ -114,7 +105,7 @@ public class PictureList extends ListActivity implements AdapterView.OnItemSelec
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         //Toast.makeText(getApplicationContext(), "ID: " + id, Toast.LENGTH_LONG).show();
-        Intent i = new Intent(PictureList.this, GuessActivity.class);
+        Intent i = new Intent(myImages.this, GuessActivity.class);
         String newId = pictures.get(position).getId();
         i.putExtra("id", newId);
         startActivity(i);
@@ -189,5 +180,6 @@ public class PictureList extends ListActivity implements AdapterView.OnItemSelec
         return (rad * 180.0 / Math.PI);
     }
 
+    {
+    }
 }
-

@@ -20,7 +20,7 @@ import com.parse.ParseObject;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    Button b1, b2;
+    Button myImages;
     Button camButt;
     Button galButt;
     Button guessButt;
@@ -73,6 +73,15 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View arg0) {
                 Intent i = new Intent(MainActivity.this, PictureList.class);
+                startActivity(i);
+            }
+        });
+
+        myImages = (Button) findViewById(R.id.myImages);
+        myImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, myImages.class);
                 startActivity(i);
             }
         });

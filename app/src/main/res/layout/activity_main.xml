@@ -45,6 +45,16 @@
             android:background="@drawable/button"
             />
 
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="0.0dip"
+            android:layout_weight="1"
+            android:text="My Images"
+            android:id="@+id/myImages"
+            android:textSize="20sp"
+            android:background="@drawable/button"
+            />
+
     </LinearLayout>
 
     <!--<LinearLayout-->

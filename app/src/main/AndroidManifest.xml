@@ -99,6 +99,15 @@
                 android:value="edu.virginia.cs.cs4720.ispy.MainActivity" />
         </activity>
         <activity
+            android:name=".myImages"
+            android:label="@string/title_activity_picture_list"
+            android:parentActivityName=".MainActivity"
+            android:configChanges="keyboard|orientation">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.virginia.cs.cs4720.ispy.MainActivity" />
+        </activity>
+        <activity
             android:name=".GuessActivity"
             android:label="@string/title_activity_guess"
             android:parentActivityName=".PictureList"
