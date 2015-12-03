@@ -13,6 +13,7 @@ import com.parse.FindCallback;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -75,6 +76,7 @@ public class DBHelper extends SQLiteOpenHelper {
             public void done(com.parse.ParseException e) {
                 if (e == null) {
                     ParseObject contentValues = new ParseObject("Picture");
+                    contentValues.put("user", ParseUser.getCurrentUser());
                     contentValues.put("path", path);
                     contentValues.put("x", x);
                     contentValues.put("y", y);
