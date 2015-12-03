@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class MainActivity extends Activity {
     Button myImages;
     Button camButt;
     Button galButt;
-    Button guessButt;
+    Button logout;
     TextView tv;
     EditText et;
     int TAKE_PIC = 1;
@@ -57,6 +58,16 @@ public class MainActivity extends Activity {
 //
 //            }
 //        });
+
+        logout = (Button)findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                Intent i = new Intent(MainActivity.this, Login.class);
+                startActivity(i);
+            }
+        });
 
         camButt = (Button)findViewById(R.id.myButt);
 
