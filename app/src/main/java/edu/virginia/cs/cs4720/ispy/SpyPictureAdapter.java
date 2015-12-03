@@ -88,7 +88,7 @@ public class SpyPictureAdapter extends ArrayAdapter<SpyPicture> {
             // move to separate thread
             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 
-            Bitmap bitmap = BitmapFactory.decodeFile(picture.getPath(), bmOptions);
+            Bitmap bitmap = picture.getImage();
             bitmap = Bitmap.createScaledBitmap(bitmap, 100, 100, true);
             imageView.setImageBitmap(bitmap);
         }

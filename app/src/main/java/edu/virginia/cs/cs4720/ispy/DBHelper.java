@@ -10,8 +10,10 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.parse.FindCallback;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
@@ -60,22 +62,33 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertPicture (String path, float x, float y, double lat, double lng, String color) {
+    public boolean insertPicture (final String path, final float x, final float y, final double lat, final double lng, final String color) {
         //SQLiteDatabase db = this.getWritableDatabase();
         //ContentValues contentValues = new ContentValues();
-        /*BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();*/
-        ParseObject contentValues = new ParseObject("Picture");
-        contentValues.put("path", path);
-        contentValues.put("x", x);
-        contentValues.put("y", y);
-        contentValues.put("latitude", lat);
-        contentValues.put("longitude", lng);
-        contentValues.put("color", color);
-        contentValues.saveInBackground();
+        byte[] byteArray = stream.toByteArray();
+        final ParseFile file = new ParseFile("spypicture.png", byteArray);
+        file.saveInBackground(new SaveCallback() {
+            public void done(com.parse.ParseException e) {
+                if (e == null) {
+                    ParseObject contentValues = new ParseObject("Picture");
+                    contentValues.put("path", path);
+                    contentValues.put("x", x);
+                    contentValues.put("y", y);
+                    contentValues.put("latitude", lat);
+                    contentValues.put("longitude", lng);
+                    contentValues.put("color", color);
+                    contentValues.put("image", file);
+                    contentValues.saveInBackground();
+                } else {
+                    Log.d("save", "file did not save");
+                }
+            }
+        });
+
         //db.insert("pictures", null, contentValues);
         return true;
     }
@@ -118,9 +131,21 @@ public class DBHelper extends SQLiteOpenHelper {
                     Log.d("score", "Retrieved " + scoreList.size() + " scores");
                     for(int i = 0; i < scoreList.size(); i++) {
                         ParseObject f = scoreList.get(i);
-                        SpyPicture pic = new SpyPicture(f.getString("objectID"), f.getString("path"), f.getString("color"), f.getNumber("x").floatValue(), f.getNumber("y").floatValue(), f.getNumber("latitude").doubleValue(), f.getNumber("longitude").doubleValue());
-                        pictures.add(pic);
-                        Log.d("Picture", pictures.get(i).toString());
+                        ParseFile imageFile = f.getParseFile("picture");
+                        try {
+                            byte[] data = imageFile.getData();
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            SpyPicture pic = new SpyPicture(f.getString("objectID"), f.getString("path"), f.getString("color"), f.getNumber("x").floatValue(), f.getNumber("y").floatValue(), f.getNumber("latitude").doubleValue(), f.getNumber("longitude").doubleValue(), bitmap);
+                            pictures.add(pic);
+                        } catch (com.parse.ParseException error) {
+                            Log.d("load", e.getMessage());
+                        }
+//                        ParseFile data = f.getParseFile("picture");
+//                        byte[] data1 = data.getData();
+//                        Bitmap bitmap = BitmapFactory.decodeByteArray(f.getParseFile("picture").getData());
+//                        SpyPicture pic = new SpyPicture(f.getString("objectID"), f.getString("path"), f.getString("color"), f.getNumber("x").floatValue(), f.getNumber("y").floatValue(), f.getNumber("latitude").doubleValue(), f.getNumber("longitude").doubleValue());
+//                        pictures.add(pic);
+//                        Log.d("Picture", pictures.get(i).toString());
                     }
                 } else {
                     Log.d("score", "Error: " + e.getMessage());

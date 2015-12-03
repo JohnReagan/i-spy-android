@@ -53,55 +53,63 @@ public class GuessActivity extends Activity {
                 public void done(ParseObject object, com.parse.ParseException e) {
                     if (e == null) {
                         //success
-                        picture = new SpyPicture(object.getObjectId(),
-                                object.getString("path"),
-                                object.getString("color"),
-                                object.getNumber("x").floatValue(),
-                                object.getNumber("y").floatValue(),
-                                object.getNumber("latitude").doubleValue(),
-                                object.getNumber("longitude").doubleValue());
-                        String path = picture.getPath();
-                        Bitmap bitmap = null;
-                        //Bitmap thumbnail = null;
-                        ImageView imageView = (ImageView) findViewById(R.id.showImage);
 
-                        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                        try {
+                            byte[] data = object.getParseFile("image").getData();
+                            Bitmap image = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            picture = new SpyPicture(object.getObjectId(),
+                                    object.getString("path"),
+                                    object.getString("color"),
+                                    object.getNumber("x").floatValue(),
+                                    object.getNumber("y").floatValue(),
+                                    object.getNumber("latitude").doubleValue(),
+                                    object.getNumber("longitude").doubleValue(),
+                                    image);
+//                            String path = picture.getPath();
+//                            Bitmap bitmap = null;
+                            //Bitmap thumbnail = null;
+                            ImageView imageView = (ImageView) findViewById(R.id.showImage);
 
-                        bitmap = BitmapFactory.decodeFile(path, bmOptions);
-                        bitmap = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-                        imageView.setImageBitmap(bitmap);
+                            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 
-                        textView.setText("I spy something.... " + picture.getColor());
-                        guesses = 0;
-                        update(guesses);
-                        imageView.setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                float x = event.getX();
-                                float y = event.getY();
-                                //finger placed on screen
-                                Handler handle = new Handler();
-                                Runnable r = new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        finish();
-                                    }
-                                };
-                                if (Math.abs(x - picture.getX()) < 20.00 && Math.abs(y - picture.getY()) < 20.00) {
-                                    if (guesses == 0) {
-                                        Toast.makeText(getApplicationContext(), "Congratulations, you got it on the first try!", Toast.LENGTH_LONG).show();
-                                        handle.postDelayed(r, 5000);
+//                            bitmap = BitmapFactory.decodeFile(path, bmOptions);
+                            Bitmap bitmap = Bitmap.createScaledBitmap(picture.getImage(), 1000, 1000, true);
+                            imageView.setImageBitmap(bitmap);
+
+                            textView.setText("I spy something.... " + picture.getColor());
+                            guesses = 0;
+                            update(guesses);
+                            imageView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    float x = event.getX();
+                                    float y = event.getY();
+                                    //finger placed on screen
+                                    Handler handle = new Handler();
+                                    Runnable r = new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            finish();
+                                        }
+                                    };
+                                    if (Math.abs(x - picture.getX()) < 20.00 && Math.abs(y - picture.getY()) < 20.00) {
+                                        if (guesses == 0) {
+                                            Toast.makeText(getApplicationContext(), "Congratulations, you got it on the first try!", Toast.LENGTH_LONG).show();
+                                            handle.postDelayed(r, 5000);
+                                        } else {
+                                            Toast.makeText(getApplicationContext(), "Nice, you got it!", Toast.LENGTH_LONG).show();
+                                            handle.postDelayed(r, 5000);
+                                        }
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Nice, you got it!", Toast.LENGTH_LONG).show();
-                                        handle.postDelayed(r, 5000);
+                                        guesses++;
+                                        update(guesses);
                                     }
-                                } else {
-                                    guesses++;
-                                    update(guesses);
+                                    return false;
                                 }
-                                return false;
-                            }
-                        });
+                            });
+                        } catch (com.parse.ParseException error) {
+
+                        }
                     } else {
                         Log.d("Picture", "Error: " + e.getMessage());
                         textView.setText("picture could not be found.");

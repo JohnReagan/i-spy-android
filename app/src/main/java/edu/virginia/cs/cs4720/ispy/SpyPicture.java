@@ -1,6 +1,9 @@
 package edu.virginia.cs.cs4720.ispy;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+
+import com.parse.ParseFile;
 
 /**
  * Created by john on 9/29/15.
@@ -13,8 +16,9 @@ public class SpyPicture {
     private float y;
     private double latitude;
     private double longitude;
+    private Bitmap image;
 
-    public SpyPicture(String id, String path, String color, float x, float y, double latitude, double longitude) {
+    public SpyPicture(String id, String path, String color, float x, float y, double latitude, double longitude, Bitmap image) {
         this.id = id;
         this.path = path;
         this.color = color;
@@ -22,6 +26,7 @@ public class SpyPicture {
         this.y = y;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.image = image;
     }
 
     public SpyPicture (Cursor res) {
@@ -89,5 +94,9 @@ public class SpyPicture {
 
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    public Bitmap getImage() {
+        return this.image;
     }
 }

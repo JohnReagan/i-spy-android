@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.parse.FindCallback;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
@@ -72,9 +73,17 @@ public class PictureList extends ListActivity implements AdapterView.OnItemSelec
                     Log.d("score", "Retrieved " + pictureList.size() + " scores");
                     for (int i = 0; i < pictureList.size(); i++) {
                         ParseObject f = pictureList.get(i);
-                        SpyPicture pic = new SpyPicture(f.getObjectId(), f.getString("path"), f.getString("color"), f.getNumber("x").floatValue(), f.getNumber("y").floatValue(), f.getNumber("latitude").doubleValue(), f.getNumber("longitude").doubleValue());
-                        pictures.add(pic);
-                        Log.d("Picture", pictures.get(i).toString());
+                        ParseFile file = f.getParseFile("image");
+                        try {
+                            byte[] data = file.getData();
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+                            SpyPicture pic = new SpyPicture(f.getObjectId(), f.getString("path"), f.getString("color"), f.getNumber("x").floatValue(), f.getNumber("y").floatValue(), f.getNumber("latitude").doubleValue(), f.getNumber("longitude").doubleValue(), bitmap);
+                            pictures.add(pic);
+                            Log.d("Picture", pictures.get(i).toString());
+                        } catch (com.parse.ParseException error) {
+
+                        }
+
                     }
 
                     for (SpyPicture picture : pictures) {
