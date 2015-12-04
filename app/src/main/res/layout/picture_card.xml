@@ -12,33 +12,11 @@
 
     <!-- labels -->
     <TextView
-        android:id="@+id/idView"
+        android:id="@+id/colorView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/image"
-        android:text="ID: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        />
-
-    <TextView
-        android:id="@+id/pathView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/idView"
-        android:layout_alignLeft="@+id/idView"
-        android:text="Path: "
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        />
-
-    <!--android:layout_toRightOf="@+id/image"-->
-
-    <TextView
-        android:id="@+id/colorView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/pathView"
-        android:layout_alignLeft="@+id/pathView"
         android:text="Color: "
         android:textAppearance="?android:attr/textAppearanceMedium"
         />
@@ -64,24 +42,6 @@
         />
 
     <!--content-->
-
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/idView"
-        android:layout_alignBottom="@+id/idView"
-        android:layout_toRightOf="@+id/idView"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/path"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/pathView"
-        android:layout_alignBottom="@+id/pathView"
-        android:layout_toRightOf="@+id/pathView"
-        android:text="TextView" />
 
     <TextView
         android:id="@+id/color"

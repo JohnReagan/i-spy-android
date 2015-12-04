@@ -64,13 +64,12 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public boolean insertPicture (final String path, final float x, final float y, final double lat, final double lng, final String color) {
-        //SQLiteDatabase db = this.getWritableDatabase();
-        //ContentValues contentValues = new ContentValues();
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         Bitmap bitmap = BitmapFactory.decodeFile(path, bmOptions);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
+        bitmap.recycle();
         final ParseFile file = new ParseFile("spypicture.png", byteArray);
         file.saveInBackground(new SaveCallback() {
             public void done(com.parse.ParseException e) {

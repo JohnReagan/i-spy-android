@@ -59,20 +59,20 @@ public class SpyPictureAdapter extends ArrayAdapter<SpyPicture> {
             // This is how you obtain a reference to the TextViews.
             // These TextViews are created in the XML files we defined.
 
-            TextView path = (TextView) v.findViewById(R.id.path);
-            TextView id = (TextView) v.findViewById(R.id.id);
+            //TextView path = (TextView) v.findViewById(R.id.path);
+            //TextView id = (TextView) v.findViewById(R.id.id);
             TextView color = (TextView) v.findViewById(R.id.color);
             TextView latitude = (TextView) v.findViewById(R.id.latitude);
             TextView longitude = (TextView) v.findViewById(R.id.longitude);
 
             // check to see if each individual textview is null.
             // if not, assign some text!
-            if (path != null) {
-                path.setText(picture.getPath());
-            }
-            if (id != null) {
-                id.setText(picture.getId() + "");
-            }
+//            if (path != null) {
+//                path.setText(picture.getPath());
+//            }
+//            if (id != null) {
+//                id.setText(picture.getId() + "");
+//            }
             if (color != null) {
                 color.setText(picture.getColor());
             }
