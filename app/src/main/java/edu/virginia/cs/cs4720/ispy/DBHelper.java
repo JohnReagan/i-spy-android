@@ -107,24 +107,10 @@ public class DBHelper extends SQLiteOpenHelper {
         return res;
     }
 
-//    public Cursor getPictures () {
+
     public ArrayList<SpyPicture> getPictures () {
         final ArrayList<SpyPicture> pictures = new ArrayList<SpyPicture>();
-//
-//        SQLiteDatabase db = this.getReadableDatabase();
-//        Cursor res = db.rawQuery("select * from pictures", null);
-//
-//        while (res.moveToNext()) {
-//            SpyPicture pic = new SpyPicture(res.getInt(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)),
-//                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)),
-//                    res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR)),
-//                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_X)),
-//                    res.getFloat(res.getColumnIndex(DBHelper.PICTURES_COLUMN_Y)),
-//                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LATITUDE)),
-//                    res.getDouble(res.getColumnIndex(DBHelper.PICTURES_COLUMN_LONGITUDE)));
-//
-//            pictures.add(pic);
-//        }
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Picture");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> scoreList, com.parse.ParseException e) {
@@ -141,12 +127,6 @@ public class DBHelper extends SQLiteOpenHelper {
                         } catch (com.parse.ParseException error) {
                             Log.d("load", e.getMessage());
                         }
-//                        ParseFile data = f.getParseFile("picture");
-//                        byte[] data1 = data.getData();
-//                        Bitmap bitmap = BitmapFactory.decodeByteArray(f.getParseFile("picture").getData());
-//                        SpyPicture pic = new SpyPicture(f.getString("objectID"), f.getString("path"), f.getString("color"), f.getNumber("x").floatValue(), f.getNumber("y").floatValue(), f.getNumber("latitude").doubleValue(), f.getNumber("longitude").doubleValue());
-//                        pictures.add(pic);
-//                        Log.d("Picture", pictures.get(i).toString());
                     }
                 } else {
                     Log.d("score", "Error: " + e.getMessage());

@@ -29,6 +29,17 @@ public class SpyPicture {
         this.image = image;
     }
 
+    public SpyPicture(String path, String color, float x, float y, double latitude, double longitude) {
+        this.id = null;
+        this.path = path;
+        this.color = color;
+        this.x = x;
+        this.y = y;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.image = null;
+    }
+
     public SpyPicture (Cursor res) {
         this.id = res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_ID));
         this.path = res.getString(res.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH));

@@ -65,14 +65,11 @@ public class GuessActivity extends Activity {
                                     object.getNumber("latitude").doubleValue(),
                                     object.getNumber("longitude").doubleValue(),
                                     image);
-//                            String path = picture.getPath();
-//                            Bitmap bitmap = null;
-                            //Bitmap thumbnail = null;
+
                             ImageView imageView = (ImageView) findViewById(R.id.showImage);
 
                             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
 
-//                            bitmap = BitmapFactory.decodeFile(path, bmOptions);
                             Bitmap bitmap = Bitmap.createScaledBitmap(picture.getImage(), 1000, 1000, true);
                             imageView.setImageBitmap(bitmap);
 
@@ -92,7 +89,7 @@ public class GuessActivity extends Activity {
                                             finish();
                                         }
                                     };
-                                    if (Math.abs(x - picture.getX()) < 20.00 && Math.abs(y - picture.getY()) < 20.00) {
+                                    if (Math.abs(x - picture.getX()) < 40.00 && Math.abs(y - picture.getY()) < 40.00) {
                                         if (guesses == 0) {
                                             Toast.makeText(getApplicationContext(), "Congratulations, you got it on the first try!", Toast.LENGTH_LONG).show();
                                             handle.postDelayed(r, 5000);
@@ -116,57 +113,6 @@ public class GuessActivity extends Activity {
                     }
                 }
             });
-//            if (cursor !=  null) {
-//                cursor.moveToFirst();
-//                picture = new SpyPicture(cursor);
-//                String path = picture.getPath();
-//                Bitmap bitmap = null;
-//                //Bitmap thumbnail = null;
-//                ImageView imageView = (ImageView) findViewById(R.id.showImage);
-//
-//                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-//
-//                bitmap = BitmapFactory.decodeFile(path, bmOptions);
-//                bitmap = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-//                imageView.setImageBitmap(bitmap);
-//
-//                textView.setText("I spy something.... " + picture.getColor());
-//                guesses = 0;
-//                update(guesses);
-//                imageView.setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        float x = event.getX();
-//                        float y = event.getY();
-//                        //finger placed on screen
-//                        Handler handle = new Handler();
-//                        Runnable r = new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                finish();
-//                            }
-//                        };
-//                        if (Math.abs(x - picture.getX()) < 20.00 && Math.abs(y - picture.getY()) < 20.00) {
-//                            if (guesses == 0) {
-//                                Toast.makeText(getApplicationContext(), "Congratulations, you got it on the first try!", Toast.LENGTH_LONG).show();
-//                                handle.postDelayed(r, 5000);
-//                            } else {
-//                                Toast.makeText(getApplicationContext(), "Nice, you got it!", Toast.LENGTH_LONG).show();
-//                                handle.postDelayed(r, 5000);
-//                            }
-//                        } else {
-//                            guesses++;
-//                            update(guesses);
-//                        }
-//                        return false;
-//                    }
-//                });
-//            } else {
-//                textView.setText("picture could not be found.");
-//            }
-
         }
-
-
     }
 }

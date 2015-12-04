@@ -150,18 +150,6 @@ public class CameraPhotoCapture extends Activity {
 
                 String imageId = convertImageUriToFile( imageUri,CameraActivity);
 
-                //Intent newIntent = new Intent(CameraPhotoCapture.this, AndroidCustomGallery.class);
-                //startActi
-                //  Create and excecute AsyncTask to load capture image
-//                String[] stores = {MediaStore.Images.Media.DATA};
-//                Cursor c = CameraActivity.getContentResolver().query(imageUri, stores, null, null, null);
-//                int fileindex = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                c.moveToFirst();
-//                String path = c.getString(fileindex);
-//                Intent newIntent = new Intent(CameraPhotoCapture.this, PhotoView.class);
-//                newIntent.putExtra("imgB", path);
-//                newIntent.setAction(Intent.ACTION_SEND);
-//                startActivity(newIntent);
                 new LoadImagesFromSDCard().execute(""+imageId);
 
                 /*********** Load Captured Image And Data End ****************/
@@ -205,16 +193,10 @@ public class CameraPhotoCapture extends Activity {
         if (path.length() > 0) {
             if (color.length() != 0) {
                 if (x >= 0 && y >= 0) {
-                    myDb.insertPicture(path, x, y, latitude, longitude, color);
-                    //Toast.makeText(getApplicationContext(), "Picture saved!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Saving picture...", Toast.LENGTH_LONG).show();
+                    SpyPicture temp = new SpyPicture(path, color, x, y, latitude, longitude);
+                    new SavePictureTask().execute(temp);
 
-                    // taken out for parse integration
-//                    Cursor rs = myDb.getPictureByPath(path);
-//                    rs.moveToFirst();
-//                    String info = "id: " + rs.getInt(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_ID)) +
-//                            "\npath: " + rs.getString(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_PATH)) +
-//                            "\ncolor: " + rs.getString(rs.getColumnIndex(DBHelper.PICTURES_COLUMN_COLOR));
-//                    Toast.makeText(getApplicationContext(), info, Toast.LENGTH_LONG).show();
                     Handler handle = new Handler();
                     Runnable r = new Runnable() {
                         @Override
@@ -369,18 +351,10 @@ public class CameraPhotoCapture extends Activity {
 
                     /********* Creates a new bitmap, scaled from an existing bitmap. ***********/
 
-//                    int orginalWidth = bitmap.getWidth();
-//                    int originalHeight = bitmap.getHeight();
-
-                    double factor = (double) bitmap.getWidth() / (double) bitmap.getHeight();
-
-                    //newBitmap = Bitmap.createScaledBitmap(bitmap, 500, 500 * (int) factor, true);
                     newBitmap = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-
                     bitmap.recycle();
 
                     if (newBitmap != null) {
-
                         mBitmap = newBitmap;
                     }
                 }
@@ -413,5 +387,18 @@ public class CameraPhotoCapture extends Activity {
 
     }
 
+    // AsyncTask for saving pictures to parse
+    private class SavePictureTask extends AsyncTask<SpyPicture, Void, Boolean> {
+        protected Boolean doInBackground(SpyPicture... pictures) {
+            SpyPicture picture = pictures[0];
+            myDb.insertPicture(picture.getPath(), picture.getX(), picture.getY(), picture.getLatitude(), picture.getLongitude(), picture.getColor());
+            return true;
+        }
 
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                Toast.makeText(getApplicationContext(), "Picture saved!", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
 }
