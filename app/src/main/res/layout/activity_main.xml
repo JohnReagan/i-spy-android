@@ -49,6 +49,7 @@
             android:layout_width="fill_parent"
             android:layout_height="0.0dip"
             android:layout_weight="1"
+            android:layout_marginTop="15dp"
             android:text="My Images"
             android:id="@+id/myImages"
             android:textSize="20sp"

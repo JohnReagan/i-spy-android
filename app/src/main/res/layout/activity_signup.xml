@@ -34,7 +34,7 @@
         android:layout_below="@+id/editPass"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
-        android:hint="@string/passwordHint"
+        android:hint="Password Confirmation"
         android:inputType="textPassword"
         />
 
